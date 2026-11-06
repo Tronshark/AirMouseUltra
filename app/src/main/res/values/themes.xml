@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AirMouse" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar" />
+
+    <style name="Theme.AirMouse.Splash" parent="Theme.AirMouse">
+        <item name="android:windowSplashScreenBrandingImage">@drawable/brand_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.AirMouse</item>
+    </style>
+</resources>

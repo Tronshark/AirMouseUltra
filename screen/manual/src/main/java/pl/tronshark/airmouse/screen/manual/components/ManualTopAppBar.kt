@@ -1,0 +1,108 @@
+package pl.tronshark.airmouse.screen.manual.components
+
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import pl.tronshark.airmouse.core.common.types.ManualPageType
+import pl.tronshark.airmouse.core.common.utils.openSettings
+import pl.tronshark.airmouse.core.ui.theme.pad_l
+import pl.tronshark.airmouse.core.ui.theme.pad_m
+import pl.tronshark.airmouse.core.ui.theme.pad_s
+import pl.tronshark.airmouse.screen.manual.R
+import pl.tronshark.airmouse.core.ui.R as coreR
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun ManualTopAppBar(
+    manualPage: ManualPageType,
+    modifier: Modifier = Modifier,
+    onMenuIconClicked: () -> Unit,
+    showAccessibilityDialog: () -> Unit
+) {
+    TopAppBar(
+        title = {
+            Text(text = stringResource(R.string.manual_title))
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent
+        ),
+        navigationIcon = {
+            IconButton(
+                onClick = {
+                    onMenuIconClicked()
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_menu),
+                    contentDescription = stringResource(R.string.manual_menu_content_description)
+                )
+            }
+        },
+        actions = {
+            HandleManualPage(
+                manualPage = manualPage,
+                showAccessibilityDialog = showAccessibilityDialog
+            )
+        },
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun HandleManualPage(
+    manualPage: ManualPageType,
+    showAccessibilityDialog: () -> Unit
+) = CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 0.dp) {
+    val context = LocalContext.current
+
+    when (manualPage) {
+        ManualPageType.PreparationStep1 -> {
+            OutlinedButton(
+                onClick = { openSettings(context) },
+                modifier = Modifier.padding(end = pad_s)
+            ) {
+                Text(text = stringResource(coreR.string.screen_settings))
+                Icon(
+                    painter = painterResource(coreR.drawable.ic_open_in_new),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(start = pad_m)
+                        .height(pad_l)
+                )
+            }
+        }
+
+        ManualPageType.PreparationStep3 -> {
+            OutlinedButton(
+                onClick = { showAccessibilityDialog() },
+                modifier = Modifier.padding(end = pad_s)
+            ) {
+                Text(text = stringResource(coreR.string.common_accessibility))
+                Icon(
+                    painter = painterResource(coreR.drawable.ic_open_in_new),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(start = pad_m)
+                        .height(pad_l)
+                )
+            }
+        }
+
+        else -> Unit
+    }
+}

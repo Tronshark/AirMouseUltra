@@ -1,6 +1,3 @@
-<p align="center">
-  <img alt="AirMouse Ultra logo" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" width="128" height="128" />
-</p>
 
 # AirMouse Ultra
 
